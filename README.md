@@ -36,11 +36,14 @@
 - LocalStorage에 테마 설정 저장
 - 테마별 차트 색상 자동 조정
 
-### 📚 OECD API 가이드
+### 📚 데이터 관리 시스템
 
-- OECD SDMX RESTful API 사용 가이드 포함
-- JavaScript 예제 코드 제공
-- 복사 버튼으로 간편하게 코드 복사
+- **JSON 기반 데이터 로딩**: `data.json` 파일에서 모든 데이터 로드
+- **하루 1회 업데이트**: `fetch-data.js` 스크립트로 World Bank API에서 데이터 수집
+- **동적 메트릭 카드**: JSON 데이터로 실시간 업데이트 (16개 카드)
+- **동적 인사이트**: JSON 데이터로 섹션별 인사이트 자동 생성
+- **데이터 다운로드**: 푸터에서 JSON 파일 다운로드 가능
+- **World Bank Open Data API**: 별도 인증 키 없이 무료 사용 가능
 
 ---
 
@@ -63,8 +66,19 @@
 ```
 대한민국-OECD-통계-대시보드/
 ├── index.html          # 메인 대시보드 (단일 파일)
+├── data.json           # 모든 차트 및 메트릭 데이터
+├── fetch-data.js       # 데이터 수집 스크립트 (Node.js)
+├── .gitignore          # Git 제외 파일 목록
 └── README.md           # 프로젝트 문서
 ```
+
+### 파일 설명
+
+| 파일 | 설명 | 크기 |
+|------|------|------|
+| `index.html` | 메인 대시보드 (HTML + CSS + JavaScript) | ~85KB |
+| `data.json` | World Bank API에서 수집된 모든 데이터 | ~9KB |
+| `fetch-data.js` | 데이터 수집 및 JSON 생성 스크립트 | ~24KB |
 
 ### 단일 HTML 파일 구조 (~2,000줄)
 
@@ -94,7 +108,33 @@ index.html
 
 ## 🎯 핵심 기술적 특징
 
-### 1. 스크롤 기반 차트 애니메이션
+### 1. JSON 기반 데이터 관리
+
+```javascript
+// data.json 파일에서 데이터 로드
+async function loadDataJSON() {
+    const response = await fetch('data.json');
+    const data = await response.json();
+    return data;
+}
+
+// 메트릭 카드 동적 업데이트
+function updateMetricCards(data) {
+    // JSON 데이터로 16개 메트릭 카드 업데이트
+}
+
+// 인사이트 동적 생성
+function updateInsights(data) {
+    // JSON 데이터로 4개 섹션 인사이트 업데이트
+}
+```
+
+- **효율성**: 하루 1회만 API 호출 → 부하 최소화
+- **속도**: JSON 파일 로딩 → 즉시 표시
+- **안정성**: API 장애 시에도 마지막 데이터로 작동
+- **투명성**: JSON 파일 다운로드로 데이터 검증 가능
+
+### 2. 스크롤 기반 차트 애니메이션
 
 ```javascript
 const chartObserver = new IntersectionObserver((entries) => {
@@ -110,7 +150,7 @@ const chartObserver = new IntersectionObserver((entries) => {
 - 막대 차트: 순차적 등장 (80ms 간격)
 - 라인 차트: easeOutQuart 이징
 
-### 2. CSS Variables 기반 테마 시스템
+### 3. CSS Variables 기반 테마 시스템
 
 ```css
 :root {
@@ -129,7 +169,7 @@ const chartObserver = new IntersectionObserver((entries) => {
 - 테마 변경 시 차트 색상 자동 업데이트
 - 한국 데이터 강조 (하늘색 계열)
 
-### 3. 맥박 애니메이션 (상태 표시)
+### 4. 맥박 애니메이션 (상태 표시)
 
 ```css
 @keyframes pulse {
@@ -182,7 +222,24 @@ cd OECD_Korea_dashboard
 
 # 3. 브라우저에서 열기 (또는 Live Server 사용)
 open index.html
+# 또는
+python3 -m http.server 8080
+# 그 다음 http://localhost:8080 접속
 ```
+
+### 데이터 업데이트
+
+```bash
+# World Bank API에서 최신 데이터 수집 (하루 1회 권장)
+node fetch-data.js
+
+# data.json 파일이 업데이트됩니다
+```
+
+**주의사항**: 
+- Node.js가 설치되어 있어야 합니다
+- 인터넷 연결이 필요합니다
+- API 호출에 시간이 걸릴 수 있습니다 (약 10-30초)
 
 ### GitHub Pages 배포
 
@@ -190,23 +247,42 @@ open index.html
 2. Source: `main` 브랜치, `/ (root)` 선택
 3. Save → 배포 완료!
 
+**배포 후**: 
+- `data.json` 파일이 함께 배포되어 즉시 사용 가능합니다
+- 데이터 업데이트는 로컬에서 `node fetch-data.js` 실행 후 다시 커밋/푸시하세요
+
 ---
 
 ## 📊 데이터 출처
 
-| 출처 | URL |
-|------|-----|
-| OECD | https://www.oecd.org |
-| OECD Data Explorer | https://data-explorer.oecd.org |
-| OECD Korea | https://www.oecd.org/korea |
+| 출처 | URL | 설명 |
+|------|-----|------|
+| **World Bank Open Data** | https://data.worldbank.org | 주요 데이터 소스 |
+| **World Bank API** | https://api.worldbank.org/v2/ | API 엔드포인트 |
+| OECD Data Explorer | https://data-explorer.oecd.org | OECD 데이터 탐색 |
+| OECD | https://www.oecd.org | OECD 공식 사이트 |
 
-### 데이터 업데이트 주기
+### 데이터 수집 지표 (10개)
 
-| 지표 유형 | 업데이트 주기 |
-|-----------|---------------|
-| CLI (경기선행지수) | 월간 |
-| GDP | 분기별 |
-| 사회지표 | 연간 |
+| 지표 | World Bank API 코드 | 업데이트 주기 |
+|------|---------------------|---------------|
+| GDP 성장률 | `NY.GDP.MKTP.KD.ZG` | 연간 |
+| 실업률 | `SL.UEM.TOTL.ZS` | 연간 |
+| 합계출산율 | `SP.DYN.TFRT.IN` | 연간 |
+| R&D 투자 | `GB.XPD.RSDV.GD.ZS` | 연간 |
+| 고등교육 이수율 | `SE.TER.CUAT.BA.ZS` | 연간 |
+| 재생에너지 비율 | `EG.FEC.RNEW.ZS` | 연간 |
+| PM2.5 대기오염 | `EN.ATM.PM25.MC.M3` | 연간 |
+| 기대수명 | `SP.DYN.LE00.IN` | 연간 |
+| 1인당 GDP | `NY.GDP.PCAP.CD` | 연간 |
+| 인플레이션율 | `FP.CPI.TOTL.ZG` | 연간 |
+
+### 데이터 업데이트 방식
+
+- **수집**: `fetch-data.js` 스크립트로 World Bank API에서 데이터 수집
+- **저장**: `data.json` 파일로 저장 (하루 1회 권장)
+- **로딩**: 브라우저에서 `data.json` 파일을 로드하여 즉시 표시
+- **장점**: API 부하 감소, 빠른 로딩 속도, API 장애 시에도 작동
 
 ---
 
@@ -244,10 +320,28 @@ MIT License - 자유롭게 사용, 수정, 배포 가능합니다.
 
 ## 👨‍💻 개발 정보
 
-- **언어**: HTML, CSS, JavaScript
+- **언어**: HTML, CSS, JavaScript (프론트엔드), Node.js (데이터 수집)
 - **의존성**: Chart.js 4.4.0, Lucide Icons (CDN)
 - **브라우저 지원**: Chrome, Firefox, Safari, Edge (최신 버전)
+- **Node.js 버전**: 14.0 이상 (fetch-data.js 실행용)
 - **마지막 업데이트**: 2026-01-02
+
+## 🔧 주요 기능 상세
+
+### 데이터 수집 스크립트 (`fetch-data.js`)
+
+- World Bank API에서 10개 지표 수집
+- 국가별 비교 데이터 생성
+- 메트릭 카드 데이터 자동 생성
+- 인사이트 텍스트 자동 생성
+- `data.json` 파일로 저장
+
+### 동적 업데이트 기능
+
+- **메트릭 카드**: 16개 카드 (경제 4개, 사회 4개, 환경 4개, 혁신 4개)
+- **인사이트**: 4개 섹션별 인사이트 텍스트
+- **차트**: 8개 차트 (GDP, 실업률, 출산율, 교육, 재생에너지, 대기질, R&D 투자, R&D 추이)
+- **마지막 업데이트 시간**: JSON 메타데이터에서 자동 표시
 
 ---
 

@@ -1,0 +1,390 @@
+{
+  "metadata": {
+    "lastUpdated": "2026-01-02T01:39:27.970Z",
+    "source": "World Bank Open Data API",
+    "sourceUrl": "https://data.worldbank.org",
+    "version": "1.1.0"
+  },
+  "economic": {
+    "gdpGrowth": {
+      "korea": {
+        "labels": [
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025(E)",
+          "2026(E)"
+        ],
+        "values": [
+          2.31,
+          -0.7,
+          4.61,
+          2.73,
+          1.58,
+          2,
+          1,
+          2.2
+        ]
+      },
+      "latestYear": "2024",
+      "forecast": {
+        "2025": 1,
+        "2026": 2.2
+      }
+    },
+    "unemployment": {
+      "comparison": {
+        "labels": [
+          "한국",
+          "OECD 평균",
+          "일본",
+          "미국",
+          "독일"
+        ],
+        "values": [
+          2.6,
+          4.9,
+          2.56,
+          4.11,
+          3.41
+        ]
+      },
+      "latestYear": "2024"
+    },
+    "inflation": {
+      "korea": 2.32,
+      "latestYear": "2024"
+    },
+    "gdpPerCapita": {
+      "korea": 36238.64,
+      "latestYear": "2024"
+    }
+  },
+  "social": {
+    "fertility": {
+      "comparison": {
+        "labels": [
+          "한국",
+          "OECD 평균",
+          "일본",
+          "프랑스",
+          "이스라엘"
+        ],
+        "values": [
+          0.72,
+          1.5,
+          1.2,
+          1.66,
+          2.85
+        ]
+      },
+      "latestYear": "2023"
+    },
+    "lifeExpectancy": {
+      "korea": 83.43,
+      "oecdAverage": 78.8,
+      "latestYear": "2023"
+    },
+    "education": {
+      "comparison": {
+        "labels": [
+          "한국",
+          "캐나다",
+          "아일랜드",
+          "일본",
+          "OECD 평균"
+        ],
+        "values": [
+          36.46,
+          34.66,
+          41.85,
+          25.54,
+          48.4
+        ]
+      },
+      "latestYear": "2024"
+    },
+    "lifeSatisfaction": {
+      "korea": 6.4,
+      "oecdAverage": 6.69,
+      "oecdRank": 33,
+      "latestYear": "2024",
+      "note": "OECD Better Life Index 기준"
+    }
+  },
+  "environment": {
+    "renewableEnergy": {
+      "comparison": {
+        "labels": [
+          "한국",
+          "OECD 평균",
+          "독일",
+          "덴마크",
+          "노르웨이"
+        ],
+        "values": [
+          3.6,
+          30,
+          17.6,
+          39.5,
+          61.4
+        ]
+      },
+      "latestYear": "2021"
+    },
+    "airQuality": {
+      "comparison": {
+        "labels": [
+          "한국",
+          "WHO 권장",
+          "OECD 평균",
+          "일본"
+        ],
+        "values": [
+          25.94,
+          5,
+          10,
+          12.84
+        ]
+      },
+      "latestYear": "2020"
+    },
+    "greenhouse": {
+      "changeRate": -2,
+      "target2030": -40,
+      "latestYear": "2024",
+      "note": "14년 만에 최저 수준"
+    },
+    "airPollutionExposure": {
+      "korea": 99.1,
+      "oecdAverage": 56.5,
+      "latestYear": "2020"
+    }
+  },
+  "innovation": {
+    "rdInvestment": {
+      "comparison": {
+        "labels": [
+          "이스라엘",
+          "한국",
+          "대만",
+          "스웨덴",
+          "OECD 평균"
+        ],
+        "values": [
+          6.02,
+          5.21,
+          3.6,
+          3.41,
+          2.7
+        ]
+      },
+      "latestYear": "2022"
+    },
+    "rdTrend": {
+      "labels": [
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023"
+      ],
+      "values": [
+        88.8,
+        93.1,
+        102.1,
+        112.6
+      ],
+      "unit": "조원"
+    },
+    "digitalGovernment": {
+      "score": 0.89,
+      "maxScore": 1,
+      "latestYear": "2023",
+      "note": "AI 정부 활용 OECD 평균 상회"
+    },
+    "patents": {
+      "status": "증가세",
+      "note": "글로벌 R&D 투자 확대 중"
+    }
+  },
+  "metricCards": {
+    "economic": [
+      {
+        "id": "gdp-growth",
+        "title": "GDP 성장률",
+        "value": 2,
+        "unit": "%",
+        "trend": "neutral",
+        "trendText": "회복세",
+        "oecdRank": "OECD 평균 수준"
+      },
+      {
+        "id": "unemployment",
+        "title": "실업률",
+        "value": 2.6,
+        "unit": "%",
+        "trend": "up",
+        "trendText": "OECD 최저 수준",
+        "oecdRank": "OECD 2위"
+      },
+      {
+        "id": "inflation",
+        "title": "물가상승률",
+        "value": 2.32,
+        "unit": "%",
+        "trend": "neutral",
+        "trendText": "관리 중",
+        "oecdRank": "목표치 내"
+      },
+      {
+        "id": "gdp-per-capita",
+        "title": "1인당 GDP",
+        "value": 36,
+        "unit": "K USD",
+        "trend": "up",
+        "trendText": "꾸준한 성장",
+        "oecdRank": "OECD 상위권"
+      }
+    ],
+    "social": [
+      {
+        "id": "fertility",
+        "title": "합계출산율",
+        "value": 0.72,
+        "unit": "",
+        "trend": "down",
+        "trendText": "OECD 최저",
+        "oecdRank": "OECD 38위"
+      },
+      {
+        "id": "life-expectancy",
+        "title": "기대수명",
+        "value": 83.43,
+        "unit": "세",
+        "trend": "up",
+        "trendText": "OECD 평균 상회",
+        "oecdRank": "OECD 4위"
+      },
+      {
+        "id": "education",
+        "title": "고등교육 이수율",
+        "value": 36,
+        "unit": "%",
+        "trend": "up",
+        "trendText": "OECD 1위",
+        "oecdRank": "OECD 1위"
+      },
+      {
+        "id": "life-satisfaction",
+        "title": "삶의 만족도",
+        "value": 6.4,
+        "unit": "/10",
+        "trend": "neutral",
+        "trendText": "OECD 평균 이하",
+        "oecdRank": "OECD 33위"
+      }
+    ],
+    "environment": [
+      {
+        "id": "renewable",
+        "title": "재생에너지 비율",
+        "value": 3.6,
+        "unit": "%",
+        "trend": "neutral",
+        "trendText": "OECD 하위권",
+        "oecdRank": "개선 필요"
+      },
+      {
+        "id": "pm25",
+        "title": "PM2.5 농도",
+        "value": 25.94,
+        "unit": "µg/m³",
+        "trend": "down",
+        "trendText": "WHO 권장 3.5배",
+        "oecdRank": "OECD 하위권"
+      },
+      {
+        "id": "greenhouse",
+        "title": "온실가스 변화율",
+        "value": -2,
+        "unit": "%",
+        "trend": "up",
+        "trendText": "감소 추세",
+        "oecdRank": "14년 만에 최저"
+      },
+      {
+        "id": "air-exposure",
+        "title": "대기오염 노출 인구",
+        "value": 99.1,
+        "unit": "%",
+        "trend": "down",
+        "trendText": "OECD 평균 1.8배",
+        "oecdRank": "개선 시급"
+      }
+    ],
+    "innovation": [
+      {
+        "id": "rd-investment",
+        "title": "R&D 투자",
+        "value": 5.21,
+        "unit": "% GDP",
+        "trend": "up",
+        "trendText": "OECD 2위",
+        "oecdRank": "OECD 2위"
+      },
+      {
+        "id": "digital-gov",
+        "title": "디지털 정부",
+        "value": 0.89,
+        "unit": "/1.0",
+        "trend": "up",
+        "trendText": "OECD 1위",
+        "oecdRank": "OECD 1위"
+      },
+      {
+        "id": "patents",
+        "title": "IP5 특허",
+        "value": "증가세",
+        "unit": "",
+        "trend": "up",
+        "trendText": "글로벌 확대",
+        "oecdRank": "OECD 상위권"
+      },
+      {
+        "id": "rd-trend",
+        "title": "R&D 지출",
+        "value": 112.6,
+        "unit": "조원",
+        "trend": "up",
+        "trendText": "꾸준한 증가",
+        "oecdRank": "역대 최고"
+      }
+    ]
+  },
+  "insights": {
+    "economic": {
+      "title": "경제 동향",
+      "text": "대한민국은 강력한 수출 중심으로 GDP 회복세를 보이고 있으며, 실업률 2.6%로 OECD 최저 수준을 유지하고 있습니다. 2025년은 대외 불확실성으로 1.0% 성장이 예상되나, 2026년 2.2% 회복 전망입니다.",
+      "highlight": "GDP 2% | 실업률 2.6% | 물가 2.32%"
+    },
+    "social": {
+      "title": "사회 동향",
+      "text": "대한민국은 OECD 국가 중 고등교육 이수율 36%로 1위를 기록하고 있으며, 기대수명 83.43세로 세계 최상위권입니다. 다만 합계출산율 0.72명으로 OECD 최저 수준이며, 삶의 만족도 개선이 필요합니다.",
+      "highlight": "출산율 0.72 | 기대수명 83.43세 | 교육 36%"
+    },
+    "environment": {
+      "title": "환경 동향",
+      "text": "대한민국은 2050 탄소중립을 목표로 재생에너지 확대에 주력하고 있습니다. 현재 재생에너지 비율 3.6%로 OECD 평균 대비 낮지만, 온실가스 배출량이 14년 만에 최저를 기록하며 개선세를 보이고 있습니다. PM2.5 25.94µg/m³로 대기질 개선이 시급합니다.",
+      "highlight": "재생에너지 3.6% | PM2.5 25.94µg/m³ | 온실가스 -2%"
+    },
+    "innovation": {
+      "title": "혁신 동향",
+      "text": "대한민국은 R&D 투자 GDP 대비 5.21%로 세계 2위(이스라엘 다음)를 기록하고 있습니다. 디지털 정부 성숙도 0.89점으로 OECD 1위이며, AI 정부 활용에서도 OECD 평균을 상회합니다. IP5 특허 출원도 꾸준한 증가세를 보이고 있습니다.",
+      "highlight": "R&D 5.21% | 디지털정부 0.89점 | 연구비 112.6조원"
+    }
+  }
+}

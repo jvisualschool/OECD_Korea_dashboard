@@ -705,6 +705,36 @@
             background: currentColor;
             animation: pulse 2s infinite;
         }
+
+        /* Download Button */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--text-inverse);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .download-btn i {
+            stroke: currentColor;
+        }
     </style>
 </head>
 
@@ -735,34 +765,34 @@
                 </div>
             </div>
             <div class="update-info">
-                <i data-lucide="bar-chart-3" class="icon icon-small"></i>데이터 출처: OECD | <i data-lucide="calendar"
-                    class="icon icon-small"></i>업데이트: 월간(CLI), 분기별(GDP), 연간(사회지표)
+                <i data-lucide="bar-chart-3" class="icon icon-small"></i>데이터 출처: <a href="https://data.worldbank.org" target="_blank" style="color: inherit; text-decoration: underline;">World Bank Open Data</a> | <i data-lucide="calendar"
+                    class="icon icon-small"></i>업데이트: 하루 1회 (JSON 캐시)
             </div>
         </div>
 
         <!-- Section 1: 경제 지표 -->
         <div class="section">
             <h2 class="section-title"><i data-lucide="dollar-sign" class="icon icon-medium"></i>경제 지표</h2>
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-label">GDP 성장률 (2024)</div>
-                    <div class="metric-value">2.2%</div>
-                    <div class="metric-compare">2025 전망: 1.0% | 2026: 2.2%</div>
+            <div class="metrics-grid" id="economic-metrics">
+                <div class="metric-card" id="card-gdp-growth">
+                    <div class="metric-label">GDP 성장률 (<span class="data-year">2024</span>)</div>
+                    <div class="metric-value"><span class="data-value">2.2</span>%</div>
+                    <div class="metric-compare"><span class="data-compare">2025 전망: 1.0% | 2026: 2.2%</span></div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">실업률 (2024)</div>
-                    <div class="metric-value">2.7%</div>
-                    <div class="metric-compare">OECD 평균: 4.9% | 역사적 저점 수준</div>
+                <div class="metric-card" id="card-unemployment">
+                    <div class="metric-label">실업률 (<span class="data-year">2024</span>)</div>
+                    <div class="metric-value"><span class="data-value">2.7</span>%</div>
+                    <div class="metric-compare"><span class="data-compare">OECD 평균: 4.9% | 역사적 저점 수준</span></div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">인플레이션율 (2024)</div>
-                    <div class="metric-value">1.9%</div>
-                    <div class="metric-compare">2023: 3.6% | 목표(2%): 근접</div>
+                <div class="metric-card" id="card-inflation">
+                    <div class="metric-label">인플레이션율 (<span class="data-year">2024</span>)</div>
+                    <div class="metric-value"><span class="data-value">1.9</span>%</div>
+                    <div class="metric-compare"><span class="data-compare">2023: 3.6% | 목표(2%): 근접</span></div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">1인당 GDP (2024)</div>
-                    <div class="metric-value">$34,000</div>
-                    <div class="metric-compare">PPP: $65,080 | OECD 평균 도달</div>
+                <div class="metric-card" id="card-gdp-per-capita">
+                    <div class="metric-label">1인당 GDP (<span class="data-year">2024</span>)</div>
+                    <div class="metric-value">$<span class="data-value">34,000</span></div>
+                    <div class="metric-compare"><span class="data-compare">PPP: $65,080 | OECD 평균 도달</span></div>
                 </div>
             </div>
 
@@ -777,36 +807,36 @@
                 </div>
             </div>
 
-            <div class="highlight">
-                <strong><i data-lucide="lightbulb" class="icon icon-small"></i>주요 인사이트:</strong> 대한민국은 강력한 수출 중심으로 GDP
-                회복세를 보이고 있으며, 실업률은 OECD 최저 수준을 유지하고 있습니다. 2025년은 대외 불확실성으로 1.0% 성장이 예상되나, 2026년 2.2% 회복 전망입니다.
+            <div class="highlight" id="insight-economic">
+                <strong><i data-lucide="lightbulb" class="icon icon-small"></i>주요 인사이트:</strong> <span class="insight-text">대한민국은 강력한 수출 중심으로 GDP
+                회복세를 보이고 있으며, 실업률은 OECD 최저 수준을 유지하고 있습니다. 2025년은 대외 불확실성으로 1.0% 성장이 예상되나, 2026년 2.2% 회복 전망입니다.</span>
             </div>
         </div>
 
         <!-- Section 2: 사회 지표 -->
         <div class="section">
             <h2 class="section-title"><i data-lucide="users" class="icon icon-medium"></i>사회 지표</h2>
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-label">합계출산율 (2024)</div>
-                    <div class="metric-value">0.75</div>
-                    <div class="metric-compare">OECD 평균: 1.5 | 세계 최저 <i data-lucide="alert-triangle"
+            <div class="metrics-grid" id="social-metrics">
+                <div class="metric-card" id="card-fertility">
+                    <div class="metric-label">합계출산율 (<span class="data-year">2024</span>)</div>
+                    <div class="metric-value"><span class="data-value">0.75</span></div>
+                    <div class="metric-compare"><span class="data-compare">OECD 평균: 1.5 | 세계 최저</span> <i data-lucide="alert-triangle"
                             style="width: 18px; height: 18px; color: #e74c3c; vertical-align: middle;"></i></div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">기대수명 (2023)</div>
-                    <div class="metric-value">83.5세</div>
-                    <div class="metric-compare">OECD 평균: 78.8세 | 전년 +0.8세</div>
+                <div class="metric-card" id="card-life-expectancy">
+                    <div class="metric-label">기대수명 (<span class="data-year">2023</span>)</div>
+                    <div class="metric-value"><span class="data-value">83.5</span>세</div>
+                    <div class="metric-compare"><span class="data-compare">OECD 평균: 78.8세 | 전년 +0.8세</span></div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">고등교육 이수율 (25-34세, 2024)</div>
-                    <div class="metric-value">70.6%</div>
-                    <div class="metric-compare">OECD 1위 | OECD 평균: 48.4%</div>
+                <div class="metric-card" id="card-education">
+                    <div class="metric-label">고등교육 이수율 (25-34세, <span class="data-year">2024</span>)</div>
+                    <div class="metric-value"><span class="data-value">70.6</span>%</div>
+                    <div class="metric-compare"><span class="data-compare">OECD 1위 | OECD 평균: 48.4%</span></div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">삶의 만족도 (2024)</div>
-                    <div class="metric-value">6.4점</div>
-                    <div class="metric-compare">OECD 평균: 6.69점 | OECD 33위</div>
+                <div class="metric-card" id="card-life-satisfaction">
+                    <div class="metric-label">삶의 만족도 (<span class="data-year">2024</span>)</div>
+                    <div class="metric-value"><span class="data-value">6.4</span>점</div>
+                    <div class="metric-compare"><span class="data-compare">OECD 평균: 6.69점 | OECD 33위</span></div>
                 </div>
             </div>
 
@@ -821,37 +851,37 @@
                 </div>
             </div>
 
-            <div class="highlight">
-                <strong><i data-lucide="lightbulb" class="icon icon-small"></i>주요 인사이트:</strong> 대한민국은 OECD 국가 중 고등교육
+            <div class="highlight" id="insight-social">
+                <strong><i data-lucide="lightbulb" class="icon icon-small"></i>주요 인사이트:</strong> <span class="insight-text">대한민국은 OECD 국가 중 고등교육
                 이수율 1위(70.6%)를 기록하며 교육 강국의 면모를 보이고 있으나, 합계출산율은 0.75로 세계 최저 수준입니다. 기대수명은 83.5세로 높은 수준이지만 삶의 만족도는 OECD 평균
-                이하입니다.
+                이하입니다.</span>
             </div>
         </div>
 
         <!-- Section 3: 환경 지표 -->
         <div class="section">
             <h2 class="section-title"><i data-lucide="leaf" class="icon icon-medium"></i>환경 지표</h2>
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-label">온실가스 배출 감소 (2024)</div>
-                    <div class="metric-value">-2%</div>
-                    <div class="metric-compare">14년 만에 최저 | 2030 목표: -40%</div>
+            <div class="metrics-grid" id="environment-metrics">
+                <div class="metric-card" id="card-greenhouse">
+                    <div class="metric-label">온실가스 배출 감소 (<span class="data-year">2024</span>)</div>
+                    <div class="metric-value"><span class="data-value">-2</span>%</div>
+                    <div class="metric-compare"><span class="data-compare">14년 만에 최저 | 2030 목표: -40%</span></div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">재생에너지 비율 (2024)</div>
-                    <div class="metric-value">8.4%</div>
-                    <div class="metric-compare">OECD 최하위권 | 목표 2034: 25% <i data-lucide="alert-triangle"
+                <div class="metric-card" id="card-renewable">
+                    <div class="metric-label">재생에너지 비율 (<span class="data-year">2024</span>)</div>
+                    <div class="metric-value"><span class="data-value">8.4</span>%</div>
+                    <div class="metric-compare"><span class="data-compare">OECD 최하위권 | 목표 2034: 25%</span> <i data-lucide="alert-triangle"
                             style="width: 18px; height: 18px; color: #e74c3c; vertical-align: middle;"></i></div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">PM2.5 농도 (2024)</div>
-                    <div class="metric-value">17.5 µg/m³</div>
-                    <div class="metric-compare">WHO 기준: 5 µg/m³ | 3.5배 초과</div>
+                <div class="metric-card" id="card-pm25">
+                    <div class="metric-label">PM2.5 농도 (<span class="data-year">2024</span>)</div>
+                    <div class="metric-value"><span class="data-value">17.5</span> µg/m³</div>
+                    <div class="metric-compare"><span class="data-compare">WHO 기준: 5 µg/m³ | 3.5배 초과</span></div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">대기오염 노출 인구 (2020)</div>
-                    <div class="metric-value">99.1%</div>
-                    <div class="metric-compare">OECD 평균: 56.5% | 개선 필요</div>
+                <div class="metric-card" id="card-air-exposure">
+                    <div class="metric-label">대기오염 노출 인구 (<span class="data-year">2020</span>)</div>
+                    <div class="metric-value"><span class="data-value">99.1</span>%</div>
+                    <div class="metric-compare"><span class="data-compare">OECD 평균: 56.5% | 개선 필요</span></div>
                 </div>
             </div>
 
@@ -866,36 +896,36 @@
                 </div>
             </div>
 
-            <div class="highlight">
-                <strong><i data-lucide="lightbulb" class="icon icon-small"></i>주요 인사이트:</strong> 대한민국은 2050 탄소중립을 목표로 하고
+            <div class="highlight" id="insight-environment">
+                <strong><i data-lucide="lightbulb" class="icon icon-small"></i>주요 인사이트:</strong> <span class="insight-text">대한민국은 2050 탄소중립을 목표로 하고
                 있으나, 재생에너지 비율(8.4%)은 OECD 최하위권입니다. 대기질 개선이 필요하며, PM2.5 농도는 WHO 권장치의 3.5배 수준입니다. 2024년 온실가스 배출이 2% 감소하며
-                긍정적 신호를 보이고 있습니다.
+                긍정적 신호를 보이고 있습니다.</span>
             </div>
         </div>
 
         <!-- Section 4: 혁신 지표 -->
         <div class="section">
             <h2 class="section-title"><i data-lucide="rocket" class="icon icon-medium"></i>혁신 지표</h2>
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-label">R&D 투자 (GDP 대비, 2023)</div>
-                    <div class="metric-value">4.96%</div>
-                    <div class="metric-compare">세계 2위 (1위 이스라엘 6.35%)</div>
+            <div class="metrics-grid" id="innovation-metrics">
+                <div class="metric-card" id="card-rd-investment">
+                    <div class="metric-label">R&D 투자 (GDP 대비, <span class="data-year">2023</span>)</div>
+                    <div class="metric-value"><span class="data-value">4.96</span>%</div>
+                    <div class="metric-compare"><span class="data-compare">세계 2위 (1위 이스라엘 6.35%)</span></div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">R&D 지출액 (2023)</div>
-                    <div class="metric-value">119.7조원</div>
-                    <div class="metric-compare">전년 대비 +5.7% 증가</div>
+                <div class="metric-card" id="card-rd-trend">
+                    <div class="metric-label">R&D 지출액 (<span class="data-year">2023</span>)</div>
+                    <div class="metric-value"><span class="data-value">119.7</span>조원</div>
+                    <div class="metric-compare"><span class="data-compare">전년 대비 +5.7% 증가</span></div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">디지털 정부 성숙도 (2023)</div>
-                    <div class="metric-value">0.89/1.00</div>
-                    <div class="metric-compare">AI 정부 활용 OECD 평균 상회</div>
+                <div class="metric-card" id="card-digital-gov">
+                    <div class="metric-label">디지털 정부 성숙도 (<span class="data-year">2023</span>)</div>
+                    <div class="metric-value"><span class="data-value">0.89</span>/1.00</div>
+                    <div class="metric-compare"><span class="data-compare">AI 정부 활용 OECD 평균 상회</span></div>
                 </div>
-                <div class="metric-card">
+                <div class="metric-card" id="card-patents">
                     <div class="metric-label">IP5 특허 점유율</div>
-                    <div class="metric-value">증가세</div>
-                    <div class="metric-compare">글로벌 R&D 투자 확대 중</div>
+                    <div class="metric-value"><span class="data-value">증가세</span></div>
+                    <div class="metric-compare"><span class="data-compare">글로벌 R&D 투자 확대 중</span></div>
                 </div>
             </div>
 
@@ -910,430 +940,539 @@
                 </div>
             </div>
 
-            <div class="highlight">
-                <strong><i data-lucide="lightbulb" class="icon icon-small"></i>주요 인사이트:</strong> 대한민국은 R&D 투자 세계 2위(GDP
+            <div class="highlight" id="insight-innovation">
+                <strong><i data-lucide="lightbulb" class="icon icon-small"></i>주요 인사이트:</strong> <span class="insight-text">대한민국은 R&D 투자 세계 2위(GDP
                 대비 4.96%)로 혁신 경제의 핵심을 유지하고 있습니다. 2024년 정부 R&D 예산이 감소했으나, 민간 부문의 적극적 투자가 지속되고 있습니다. 디지털 정부 성숙도도 OECD
-                최상위권입니다.
+                최상위권입니다.</span>
             </div>
         </div>
 
         <!-- API Guide Section -->
         <div class="api-guide" id="api-guide">
-            <h3><i data-lucide="code-2" class="icon icon-medium"></i>OECD API 사용 가이드</h3>
+            <h3><i data-lucide="code-2" class="icon icon-medium"></i>데이터 API 가이드</h3>
 
             <div class="api-status live" id="apiStatus">
                 <span class="api-status-dot"></span>
-                <span id="apiStatusText">API 연결 확인 중...</span>
+                <span id="apiStatusText">데이터 로딩 중...</span>
             </div>
 
-            <p>이 대시보드는 <strong>OECD SDMX RESTful API</strong>를 사용하여 실시간 데이터를 가져옵니다. API는 무료이며, 별도의 인증이 필요하지 않습니다.</p>
+            <p>이 대시보드는 <strong>data.json</strong> 파일에서 데이터를 로드합니다. 
+                JSON 파일은 <strong>World Bank Open Data API</strong>에서 수집된 데이터로, 
+                <code>node fetch-data.js</code> 명령으로 업데이트할 수 있습니다. (하루 1회 권장)</p>
 
             <h4><i data-lucide="link" class="icon icon-small"></i>API 기본 URL</h4>
-            <pre id="baseUrl">https://sdmx.oecd.org/public/rest/data/</pre>
-            <button class="copy-btn" onclick="copyToClipboard('https://sdmx.oecd.org/public/rest/data/')">📋 복사</button>
+            <pre id="baseUrl">https://api.worldbank.org/v2/</pre>
+            <button class="copy-btn" onclick="copyToClipboard('https://api.worldbank.org/v2/')">📋 복사</button>
 
-            <h4><i data-lucide="database" class="icon icon-small"></i>이 대시보드에서 사용하는 데이터셋</h4>
+            <h4><i data-lucide="database" class="icon icon-small"></i>이 대시보드에서 사용하는 지표</h4>
             <div class="endpoint-list">
                 <div class="endpoint-item">
                     <strong>📈 GDP 성장률</strong>
-                    <p>분기별 GDP 성장률 데이터를 가져옵니다.</p>
-                    <code>OECD.SDD.NAD,DSD_NAMAIN1@DF_TABLE1_POPTOTAL,1.0/A.KOR.B1GQ_R_GR</code>
+                    <p>연간 GDP 성장률 (%)</p>
+                    <code>country/KOR/indicator/NY.GDP.MKTP.KD.ZG</code>
                 </div>
                 <div class="endpoint-item">
                     <strong>👥 실업률</strong>
-                    <p>국가별 실업률 통계를 가져옵니다.</p>
-                    <code>OECD.SDD.TPS,DSD_LFS@DF_IALFS_UNE_M,1.0/KOR+JPN+USA+DEU.UNE_LF._T._T.Y._T.M</code>
+                    <p>총 실업률 (% of total labor force)</p>
+                    <code>country/KOR;OED;JPN;USA;DEU/indicator/SL.UEM.TOTL.ZS</code>
                 </div>
                 <div class="endpoint-item">
                     <strong>👶 출산율</strong>
-                    <p>국가별 합계출산율 데이터를 가져옵니다.</p>
-                    <code>OECD.ELS.SAE,DSD_FD@DF_FAMILYDB,1.0/KOR+JPN+FRA+ISR.SF2_1.TFR.A</code>
+                    <p>합계출산율 (births per woman)</p>
+                    <code>country/KOR;OED;JPN;FRA;ISR/indicator/SP.DYN.TFRT.IN</code>
                 </div>
                 <div class="endpoint-item">
                     <strong>🔬 R&D 투자</strong>
-                    <p>GDP 대비 R&D 투자 비율을 가져옵니다.</p>
-                    <code>OECD.STI.STP,DSD_MSTI@DF_MSTI,1.0/A.GERD_GDP.KOR+ISR+TWN+SWE</code>
+                    <p>GDP 대비 R&D 지출 (%)</p>
+                    <code>country/ISR;KOR;OED;SWE/indicator/GB.XPD.RSDV.GD.ZS</code>
                 </div>
             </div>
 
             <h4><i data-lucide="terminal" class="icon icon-small"></i>JavaScript 예제 코드</h4>
-            <pre>// OECD API에서 한국 GDP 데이터 가져오기
+            <pre>// World Bank API에서 한국 GDP 데이터 가져오기
 async function fetchKoreaGDP() {
-    const url = 'https://sdmx.oecd.org/public/rest/data/' +
-                'OECD.SDD.NAD,DSD_NAMAIN1@DF_TABLE1_POPTOTAL,1.0/' +
-                'A.KOR.B1GQ_R_GR?format=jsondata';
+    // KOR: 한국, NY.GDP.MKTP.KD.ZG: GDP 성장률
+    const url = 'https://api.worldbank.org/v2/country/KOR/indicator/' + 
+                'NY.GDP.MKTP.KD.ZG?format=json&date=2020:2025';
     
-    const response = await fetch(url, {
-        headers: {
-            'Accept': 'application/vnd.sdmx.data+json;charset=utf-8;version=2.0.0'
-        }
-    });
-    
+    const response = await fetch(url);
     const data = await response.json();
-    console.log('GDP Data:', data);
-    return data;
+    
+    // data[1]에 실제 데이터 배열이 들어있음
+    console.log('GDP Data:', data[1]);
+    return data[1];
 }</pre>
             <button class="copy-btn" onclick="copyCode()">📋 코드 복사</button>
 
             <h4><i data-lucide="info" class="icon icon-small"></i>API 제한사항</h4>
-            <p>• <strong>요청 제한:</strong> 시간당 최대 60회<br>
-                • <strong>응답 형식:</strong> JSON, XML, CSV 지원<br>
-                • <strong>인증:</strong> 필요 없음 (무료)<br>
-                • <strong>CORS:</strong> 모든 도메인 허용</p>
+            <p>• <strong>응답 형식:</strong> JSON (format=json 파라미터 필요)<br>
+                • <strong>인증:</strong> 필요 없음 (Public Domain)<br>
+                • <strong>CORS:</strong> 모든 도메인 허용<br>
+                • <strong>데이터 갱신:</strong> 연간 (일부 지표는 분기별)</p>
 
             <h4><i data-lucide="external-link" class="icon icon-small"></i>공식 문서</h4>
-            <p>더 자세한 정보는 <a href="https://data-explorer.oecd.org" target="_blank"
-                    style="color: var(--text-primary); font-weight: 600;">OECD Data Explorer</a>에서 확인할 수 있습니다.</p>
+            <p>더 자세한 정보는 <a href="https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information"
+                    target="_blank" style="color: var(--text-primary); font-weight: 600;">World Bank API Docs</a>에서 확인할
+                수 있습니다.</p>
         </div>
 
         <div class="footer">
-            <p>데이터 출처: <a href="https://www.oecd.org" class="source-link" target="_blank">OECD</a> |
+            <p>데이터 출처: 
+                <a href="https://data.worldbank.org" class="source-link" target="_blank">World Bank Open Data</a> |
+                <a href="https://api.worldbank.org/v2/" class="source-link" target="_blank">World Bank API</a> |
                 <a href="https://data-explorer.oecd.org" class="source-link" target="_blank">OECD Data Explorer</a> |
-                <a href="https://www.oecd.org/korea" class="source-link" target="_blank">OECD Korea</a>
+                <a href="https://www.oecd.org" class="source-link" target="_blank">OECD</a>
             </p>
-            <p style="margin-top: 10px;">Last Updated: 2026-01-02 | Dashboard created with <i data-lucide="heart"
+            <div style="margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <span id="lastUpdatedText">Last Updated: -</span>
+                <button class="download-btn" onclick="downloadJSON()" title="데이터 JSON 파일 다운로드">
+                    <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+                    <span>data.json 다운로드</span>
+                </button>
+            </div>
+            <p style="margin-top: 10px;">Dashboard created with <i data-lucide="heart"
                     class="icon icon-small" style="color: #ff6b6b;"></i> for Korea</p>
         </div>
     </div>
 
     <script>
         // =============================================
-        // OECD API Configuration & Functions
+        // Data Configuration & JSON Loading
         // =============================================
 
-        const OECD_API = {
-            baseUrl: 'https://sdmx.oecd.org/public/rest/data/',
-            headers: {
-                'Accept': 'application/vnd.sdmx.data+json;charset=utf-8;version=2.0.0'
-            },
-            timeout: 10000, // 10 seconds
-            isLive: false,  // Track if API is working
+        // 전역 데이터 저장소
+        let dashboardData = null;
 
-            // Fallback static data (used when API fails)
-            fallbackData: {
-                gdp: [-0.7, 4.3, 2.6, 1.4, 2.2, 1.0, 2.2],
-                gdpLabels: ['2020', '2021', '2022', '2023', '2024', '2025(E)', '2026(E)'],
-                unemployment: [2.7, 4.9, 2.5, 3.7, 3.0],
-                fertility: [0.75, 1.5, 1.3, 1.8, 2.9],
-                education: [70.6, 68.9, 66.2, 65, 48.4],
-                renewable: [8.4, 30, 46, 80, 98],
-                airQuality: [17.5, 5, 10, 11],
-                rdInvestment: [6.35, 4.96, 3.6, 3.4, 2.7],
-                rdTrend: [89.5, 93.1, 100.3, 113.3, 119.7]
+        // Fallback 정적 데이터 (JSON 로드 실패 시 사용)
+        const FALLBACK_DATA = {
+            metadata: {
+                lastUpdated: new Date().toISOString(),
+                source: 'Static Fallback Data'
+            },
+            economic: {
+                gdpGrowth: {
+                    korea: {
+                        labels: ['2019', '2020', '2021', '2022', '2023', '2024', '2025(E)', '2026(E)'],
+                        values: [2.2, -0.7, 4.3, 2.6, 1.4, 2.2, 1.0, 2.2]
+                    }
+                },
+                unemployment: {
+                    comparison: {
+                        labels: ['한국', 'OECD 평균', '일본', '미국', '독일'],
+                        values: [2.7, 4.9, 2.5, 3.7, 3.0]
+                    }
+                }
+            },
+            social: {
+                fertility: {
+                    comparison: {
+                        labels: ['한국', 'OECD 평균', '일본', '프랑스', '이스라엘'],
+                        values: [0.75, 1.5, 1.3, 1.8, 2.9]
+                    }
+                },
+                education: {
+                    comparison: {
+                        labels: ['한국', '캐나다', '아일랜드', '일본', 'OECD 평균'],
+                        values: [70.6, 68.9, 66.2, 65, 48.4]
+                    }
+                }
+            },
+            environment: {
+                renewableEnergy: {
+                    comparison: {
+                        labels: ['한국', 'OECD 평균', '독일', '덴마크', '노르웨이'],
+                        values: [8.4, 30, 46, 80, 98]
+                    }
+                },
+                airQuality: {
+                    comparison: {
+                        labels: ['한국', 'WHO 권장', 'OECD 평균', '일본'],
+                        values: [17.5, 5, 10, 11]
+                    }
+                }
+            },
+            innovation: {
+                rdInvestment: {
+                    comparison: {
+                        labels: ['이스라엘', '한국', '대만', '스웨덴', 'OECD 평균'],
+                        values: [6.35, 4.96, 3.6, 3.4, 2.7]
+                    }
+                },
+                rdTrend: {
+                    labels: ['2019', '2020', '2021', '2022', '2023'],
+                    values: [89.5, 93.1, 100.3, 113.3, 119.7]
+                }
             }
         };
 
-        // Fetch with timeout
-        async function fetchWithTimeout(url, options = {}) {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), OECD_API.timeout);
-
+        // JSON 데이터 로드 함수
+        async function loadDataJSON() {
             try {
-                const response = await fetch(url, {
-                    ...options,
-                    signal: controller.signal
-                });
-                clearTimeout(timeoutId);
-                return response;
-            } catch (error) {
-                clearTimeout(timeoutId);
-                throw error;
-            }
-        }
-
-        // Generic OECD API fetch function
-        async function fetchOECDData(endpoint) {
-            const url = `${OECD_API.baseUrl}${endpoint}`;
-
-            try {
-                const response = await fetchWithTimeout(url, {
-                    headers: OECD_API.headers
-                });
-
+                const response = await fetch('data.json?' + Date.now()); // 캐시 방지
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}`);
                 }
-
                 const data = await response.json();
+                console.log('✅ data.json 로드 완료:', data.metadata?.lastUpdated);
                 return data;
             } catch (error) {
-                console.warn('OECD API Error:', error.message);
-                return null;
+                console.warn('⚠️ data.json 로드 실패, Fallback 데이터 사용:', error.message);
+                return FALLBACK_DATA;
             }
         }
 
-        // Parse SDMX JSON data - extract values
-        function parseSDMXData(sdmxData) {
-            try {
-                if (!sdmxData || !sdmxData.data || !sdmxData.data.dataSets) {
-                    return null;
-                }
+        // JSON 다운로드 함수
+        function downloadJSON() {
+            if (!dashboardData) {
+                alert('데이터가 아직 로드되지 않았습니다.');
+                return;
+            }
 
-                const dataSet = sdmxData.data.dataSets[0];
-                const structure = sdmxData.data.structure;
+            const dataStr = JSON.stringify(dashboardData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
 
-                // Get time periods from dimensions
-                const timeDimension = structure.dimensions.observation.find(d => d.id === 'TIME_PERIOD');
-                const labels = timeDimension ? timeDimension.values.map(v => v.id) : [];
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `oecd-korea-data-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
 
-                // Get values from series
-                const series = dataSet.series;
-                const values = [];
-
-                for (const key in series) {
-                    const observations = series[key].observations;
-                    for (const obsKey in observations) {
-                        values.push(observations[obsKey][0]);
-                    }
-                }
-
-                return { labels, values };
-            } catch (error) {
-                console.warn('Parse error:', error);
-                return null;
+        // 마지막 업데이트 시간 표시
+        function updateLastUpdatedText(timestamp) {
+            const el = document.getElementById('lastUpdatedText');
+            if (el && timestamp) {
+                const date = new Date(timestamp);
+                const formatted = date.toLocaleDateString('ko-KR', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                el.textContent = `Last Updated: ${formatted}`;
             }
         }
 
-        // =============================================
-        // Specific Data Fetching Functions
-        // =============================================
-
-        // Fetch GDP Growth Rate data for Korea
-        async function fetchGDPData() {
-            try {
-                const endpoint = 'OECD.SDD.NAD,DSD_NAMAIN1@DF_TABLE1_POPTOTAL,1.0/A.KOR.B1GQ_R_GR?startPeriod=2020&endPeriod=2024';
-                const data = await fetchOECDData(endpoint);
-
-                if (data && data.data && data.data.dataSets && data.data.dataSets[0]) {
-                    const structure = data.data.structure;
-                    const timeDim = structure.dimensions.observation.find(d => d.id === 'TIME_PERIOD');
-                    const labels = timeDim ? timeDim.values.map(v => v.id) : [];
-
-                    const series = data.data.dataSets[0].series;
-                    const values = [];
-
-                    for (const key in series) {
-                        const obs = series[key].observations;
-                        for (const obsKey in obs) {
-                            values.push(Math.round(obs[obsKey][0] * 10) / 10);
-                        }
-                    }
-
-                    // Add forecast data (2025, 2026)
-                    labels.push('2025(E)', '2026(E)');
-                    values.push(1.0, 2.2);
-
-                    return { labels, values };
-                }
-            } catch (error) {
-                console.warn('Failed to fetch GDP data:', error);
-            }
-
-            // Fallback
-            return {
-                labels: OECD_API.fallbackData.gdpLabels,
-                values: OECD_API.fallbackData.gdp
-            };
-        }
-
-        // Fetch Unemployment Rate data
-        async function fetchUnemploymentData() {
-            try {
-                // Get latest year's data for multiple countries
-                const endpoint = 'OECD.SDD.TPS,DSD_LFS@DF_IALFS_UNE_RA,1.0/KOR+JPN+USA+DEU.UNE_LF._T._T.Y15T74._T.A?lastNObservations=1';
-                const data = await fetchOECDData(endpoint);
-
-                if (data && data.data && data.data.dataSets && data.data.dataSets[0]) {
-                    const structure = data.data.structure;
-                    const refAreaDim = structure.dimensions.series.find(d => d.id === 'REF_AREA');
-                    const countries = refAreaDim ? refAreaDim.values : [];
-
-                    const series = data.data.dataSets[0].series;
-                    const countryData = {};
-
-                    let seriesIdx = 0;
-                    for (const key in series) {
-                        const countryCode = countries[seriesIdx]?.id || '';
-                        const obs = series[key].observations;
-                        for (const obsKey in obs) {
-                            countryData[countryCode] = Math.round(obs[obsKey][0] * 10) / 10;
-                        }
-                        seriesIdx++;
-                    }
-
-                    // Map to our expected format: 한국, OECD 평균, 일본, 미국, 독일
-                    const values = [
-                        countryData['KOR'] || 2.7,
-                        4.9, // OECD average (static)
-                        countryData['JPN'] || 2.5,
-                        countryData['USA'] || 3.7,
-                        countryData['DEU'] || 3.0
-                    ];
-
-                    return values;
-                }
-            } catch (error) {
-                console.warn('Failed to fetch unemployment data:', error);
-            }
-
-            return OECD_API.fallbackData.unemployment;
-        }
-
-        // Fetch Fertility Rate data
-        async function fetchFertilityData() {
-            try {
-                const endpoint = 'OECD.ELS.SAE,DSD_FD@DF_FAMILYDB,1.0/KOR+JPN+FRA+ISR.SF2_1.TFR._T?lastNObservations=1';
-                const data = await fetchOECDData(endpoint);
-
-                if (data && data.data && data.data.dataSets && data.data.dataSets[0]) {
-                    const structure = data.data.structure;
-                    const refAreaDim = structure.dimensions.series.find(d => d.id === 'REF_AREA');
-                    const countries = refAreaDim ? refAreaDim.values : [];
-
-                    const series = data.data.dataSets[0].series;
-                    const countryData = {};
-
-                    let seriesIdx = 0;
-                    for (const key in series) {
-                        const countryCode = countries[seriesIdx]?.id || '';
-                        const obs = series[key].observations;
-                        for (const obsKey in obs) {
-                            countryData[countryCode] = Math.round(obs[obsKey][0] * 100) / 100;
-                        }
-                        seriesIdx++;
-                    }
-
-                    // Map to: 한국, OECD 평균, 일본, 프랑스, 이스라엘
-                    const values = [
-                        countryData['KOR'] || 0.75,
-                        1.5, // OECD average
-                        countryData['JPN'] || 1.3,
-                        countryData['FRA'] || 1.8,
-                    ];
-
-                    return values;
-                }
-            } catch (error) {
-                console.warn('Failed to fetch fertility data:', error);
-            }
-
-            return OECD_API.fallbackData.fertility;
-        }
-
-        // Fetch R&D Investment data (GDP %)
-        async function fetchRDData() {
-            try {
-                const endpoint = 'OECD.STI.STP,DSD_MSTI@DF_MSTI,1.0/A.GERD_GDP.KOR+ISR+SWE?lastNObservations=1';
-                const data = await fetchOECDData(endpoint);
-
-                if (data && data.data && data.data.dataSets && data.data.dataSets[0]) {
-                    const structure = data.data.structure;
-                    const refAreaDim = structure.dimensions.series.find(d => d.id === 'REF_AREA');
-                    const countries = refAreaDim ? refAreaDim.values : [];
-
-                    const series = data.data.dataSets[0].series;
-                    const countryData = {};
-
-                    let seriesIdx = 0;
-                    for (const key in series) {
-                        const countryCode = countries[seriesIdx]?.id || '';
-                        const obs = series[key].observations;
-                        for (const obsKey in obs) {
-                            countryData[countryCode] = Math.round(obs[obsKey][0] * 100) / 100;
-                        }
-                        seriesIdx++;
-                    }
-
-                    // Map to: 이스라엘, 한국, 대만, 스웨덴, OECD 평균
-                    const values = [
-                        countryData['ISR'] || 6.35,
-                        countryData['KOR'] || 4.96,
-                        3.6, // Taiwan (static)
-                        2.7  // OECD average
-                    ];
-
-                    return values;
-                }
-            } catch (error) {
-                console.warn('Failed to fetch R&D data:', error);
-            }
-
-        }
-
-        // Master function to load data (uses static data, API guide for reference)
-        async function loadAPIDataAndUpdateCharts() {
-            // 현재 OECD API 엔드포인트가 자주 변경되므로 정적 데이터 사용
-            // API 가이드 섹션은 교육용으로 유지
-            updateAPIStatus(false, '데이터 준비 완료');
-        }
-
-        // Update API status display (both header and API guide section)
-        function updateAPIStatus(isLive, message = null) {
-            OECD_API.isLive = isLive;
-
-            // Update API Guide section status
+        // API 상태 업데이트 (JSON 로드 기반)
+        function updateAPIStatus(isLoaded, message = null) {
             const statusEl = document.getElementById('apiStatus');
             const statusTextEl = document.getElementById('apiStatusText');
-
-            if (statusEl && statusTextEl) {
-                if (message && message.includes('준비 완료')) {
-                    statusEl.className = 'api-status live';
-                    statusTextEl.textContent = message;
-                } else if (isLive) {
-                    statusEl.className = 'api-status live';
-                    statusTextEl.textContent = message || '🟢 실시간 API 연결됨';
-                } else {
-                    statusEl.className = 'api-status fallback';
-                    statusTextEl.textContent = message || '🟡 정적 데이터 사용 중';
-                }
-            }
-
-            // Update Header status badge
             const headerStatusEl = document.getElementById('headerApiStatus');
             const headerStatusTextEl = document.getElementById('headerApiStatusText');
 
-            if (headerStatusEl && headerStatusTextEl) {
-                let shortMessage = '';
-                let statusClass = 'loading';
-
-                if (message && message.includes('로딩')) {
-                    shortMessage = '로딩 중...';
-                    statusClass = 'loading';
-                } else if (message && message.includes('준비 완료')) {
-                    shortMessage = 'Data Ready';
-                    statusClass = 'live';
-                } else if (isLive) {
-                    const match = message ? message.match(/\((\d+\/\d+)\s*API\)/) : null;
-                    shortMessage = match ? `API Live ${match[1]}` : 'API Live';
-                    statusClass = 'live';
+            if (statusEl && statusTextEl) {
+                if (isLoaded) {
+                    statusEl.className = 'api-status live';
+                    statusTextEl.textContent = message || '🟢 데이터 로드 완료';
                 } else {
-                    shortMessage = '정적 데이터';
-                    statusClass = 'fallback';
+                    statusEl.className = 'api-status fallback';
+                    statusTextEl.textContent = message || '🟡 Fallback 데이터 사용 중';
                 }
+            }
 
-                headerStatusEl.className = `header-api-status ${statusClass}`;
-                headerStatusTextEl.textContent = shortMessage;
+            if (headerStatusEl && headerStatusTextEl) {
+                if (isLoaded) {
+                    headerStatusEl.className = 'header-api-status live';
+                    headerStatusTextEl.textContent = 'Data Ready';
+                } else {
+                    headerStatusEl.className = 'header-api-status fallback';
+                    headerStatusTextEl.textContent = 'Fallback';
+                }
             }
         }
 
-        // Test API connection
-        async function testAPIConnection() {
-            try {
-                const testUrl = `${OECD_API.baseUrl}OECD.SDD.NAD,DSD_NAMAIN1@DF_TABLE1_POPTOTAL,1.0/A.KOR.B1GQ_R_GR?lastNObservations=1`;
-                const response = await fetchWithTimeout(testUrl, {
-                    headers: OECD_API.headers
-                });
+        // =============================================
+        // Chart Update Functions (JSON 데이터 기반)
+        // =============================================
 
-                if (response.ok) {
-                    updateAPIStatus(true, '🟢 실시간 API 연결됨');
-                    return true;
+        // JSON 데이터로 모든 차트 업데이트
+        async function loadAndApplyData() {
+            try {
+                updateAPIStatus(false, '데이터 로딩 중...');
+
+                // JSON 파일 로드
+                dashboardData = await loadDataJSON();
+
+                // 메타데이터 업데이트
+                updateLastUpdatedText(dashboardData.metadata?.lastUpdated);
+
+                // 차트 업데이트
+                updateAllChartsWithData(dashboardData);
+
+                // 메트릭 카드 업데이트
+                updateMetricCards(dashboardData);
+
+                // 인사이트 업데이트
+                updateInsights(dashboardData);
+
+                // 상태 업데이트
+                const isFromJSON = dashboardData.metadata?.source !== 'Static Fallback Data';
+                updateAPIStatus(isFromJSON, isFromJSON ? '🟢 JSON 데이터 로드 완료' : '🟡 Fallback 데이터 사용 중');
+
+            } catch (err) {
+                console.error('Error loading data:', err);
+                updateAPIStatus(false, '데이터 로딩 실패');
+            }
+        }
+
+        // 메트릭 카드 업데이트 함수
+        function updateMetricCards(data) {
+            if (!data) return;
+
+            // 경제 지표 카드
+            if (data.economic) {
+                // GDP 성장률
+                updateCardValue('card-gdp-growth', data.economic.gdpGrowth?.korea?.values?.slice(-3, -2)[0], 
+                    data.economic.gdpGrowth?.latestYear);
+                
+                // 실업률
+                const unemploymentVal = data.economic.unemployment?.comparison?.values?.[0];
+                updateCardValue('card-unemployment', unemploymentVal, data.economic.unemployment?.latestYear);
+                
+                // 인플레이션
+                updateCardValue('card-inflation', data.economic.inflation?.korea, data.economic.inflation?.latestYear);
+                
+                // 1인당 GDP
+                const gdpPerCapita = data.economic.gdpPerCapita?.korea;
+                if (gdpPerCapita) {
+                    const cardEl = document.getElementById('card-gdp-per-capita');
+                    if (cardEl) {
+                        const valueEl = cardEl.querySelector('.data-value');
+                        const yearEl = cardEl.querySelector('.data-year');
+                        if (valueEl) valueEl.textContent = Math.round(gdpPerCapita).toLocaleString();
+                        if (yearEl) yearEl.textContent = data.economic.gdpPerCapita?.latestYear || '2024';
+                    }
                 }
-            } catch (error) {
-                console.warn('API connection test failed:', error);
             }
 
-            updateAPIStatus(false);
-            return false;
+            // 사회 지표 카드
+            if (data.social) {
+                // 출산율
+                const fertilityVal = data.social.fertility?.comparison?.values?.[0];
+                updateCardValue('card-fertility', fertilityVal, data.social.fertility?.latestYear);
+                
+                // 기대수명
+                updateCardValue('card-life-expectancy', data.social.lifeExpectancy?.korea, 
+                    data.social.lifeExpectancy?.latestYear);
+                
+                // 교육 수준
+                const educationVal = data.social.education?.comparison?.values?.[0];
+                updateCardValue('card-education', educationVal ? Math.round(educationVal * 10) / 10 : null, 
+                    data.social.education?.latestYear);
+                
+                // 삶의 만족도
+                updateCardValue('card-life-satisfaction', data.social.lifeSatisfaction?.korea, 
+                    data.social.lifeSatisfaction?.latestYear);
+            }
+
+            // 환경 지표 카드
+            if (data.environment) {
+                // 온실가스
+                updateCardValue('card-greenhouse', data.environment.greenhouse?.changeRate, 
+                    data.environment.greenhouse?.latestYear);
+                
+                // 재생에너지
+                const renewableVal = data.environment.renewableEnergy?.comparison?.values?.[0];
+                updateCardValue('card-renewable', renewableVal, data.environment.renewableEnergy?.latestYear);
+                
+                // PM2.5
+                const pm25Val = data.environment.airQuality?.comparison?.values?.[0];
+                updateCardValue('card-pm25', pm25Val, data.environment.airQuality?.latestYear);
+                
+                // 대기오염 노출
+                updateCardValue('card-air-exposure', data.environment.airPollutionExposure?.korea, 
+                    data.environment.airPollutionExposure?.latestYear);
+            }
+
+            // 혁신 지표 카드
+            if (data.innovation) {
+                // R&D 투자
+                const rdVal = data.innovation.rdInvestment?.comparison?.values?.[1]; // 한국은 인덱스 1
+                updateCardValue('card-rd-investment', rdVal, data.innovation.rdInvestment?.latestYear);
+                
+                // R&D 지출액
+                const rdTrendVal = data.innovation.rdTrend?.values?.slice(-1)[0];
+                updateCardValue('card-rd-trend', rdTrendVal, '2023');
+                
+                // 디지털 정부
+                updateCardValue('card-digital-gov', data.innovation.digitalGovernment?.score, 
+                    data.innovation.digitalGovernment?.latestYear);
+                
+                // IP5 특허
+                if (data.innovation.patents?.status) {
+                    const cardEl = document.getElementById('card-patents');
+                    if (cardEl) {
+                        const valueEl = cardEl.querySelector('.data-value');
+                        if (valueEl) valueEl.textContent = data.innovation.patents.status;
+                    }
+                }
+            }
+
+            // metricCards 데이터가 있으면 더 정확한 값 사용
+            if (data.metricCards) {
+                applyMetricCardsData(data.metricCards);
+            }
+
+            console.log('📊 메트릭 카드 업데이트 완료');
+        }
+
+        // 메트릭 카드 값 업데이트 헬퍼
+        function updateCardValue(cardId, value, year) {
+            const cardEl = document.getElementById(cardId);
+            if (!cardEl) return;
+
+            if (value !== null && value !== undefined) {
+                const valueEl = cardEl.querySelector('.data-value');
+                if (valueEl) {
+                    valueEl.textContent = typeof value === 'number' ? 
+                        (Math.abs(value) < 10 ? value.toFixed(2) : value.toFixed(1)) : value;
+                }
+            }
+
+            if (year) {
+                const yearEl = cardEl.querySelector('.data-year');
+                if (yearEl) yearEl.textContent = year;
+            }
+        }
+
+        // metricCards 객체의 데이터 적용
+        function applyMetricCardsData(metricCards) {
+            const categories = ['economic', 'social', 'environment', 'innovation'];
+            
+            categories.forEach(category => {
+                const cards = metricCards[category];
+                if (!cards) return;
+
+                cards.forEach(card => {
+                    const cardId = `card-${card.id}`;
+                    const cardEl = document.getElementById(cardId);
+                    if (!cardEl) return;
+
+                    const valueEl = cardEl.querySelector('.data-value');
+                    const compareEl = cardEl.querySelector('.data-compare');
+
+                    if (valueEl && card.value !== undefined) {
+                        valueEl.textContent = typeof card.value === 'number' ?
+                            (card.value < 10 && card.value > -10 ? card.value.toFixed(2) : card.value.toFixed(1)) : card.value;
+                    }
+
+                    if (compareEl && card.trendText && card.oecdRank) {
+                        compareEl.textContent = `${card.trendText} | ${card.oecdRank}`;
+                    }
+                });
+            });
+        }
+
+        // 인사이트 업데이트 함수
+        function updateInsights(data) {
+            if (!data?.insights) return;
+
+            const insightMap = {
+                'insight-economic': data.insights.economic?.text,
+                'insight-social': data.insights.social?.text,
+                'insight-environment': data.insights.environment?.text,
+                'insight-innovation': data.insights.innovation?.text
+            };
+
+            Object.entries(insightMap).forEach(([id, text]) => {
+                if (text) {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        const textEl = el.querySelector('.insight-text');
+                        if (textEl) {
+                            textEl.textContent = text;
+                        }
+                    }
+                }
+            });
+
+            console.log('💡 인사이트 업데이트 완료');
+        }
+
+        // 모든 차트에 데이터 적용
+        function updateAllChartsWithData(data) {
+            if (!data) return;
+
+            // 1. GDP 성장률 차트
+            if (data.economic?.gdpGrowth?.korea && charts.gdpChart) {
+                const gdpData = data.economic.gdpGrowth.korea;
+                charts.gdpChart.data.labels = gdpData.labels;
+                charts.gdpChart.data.datasets[0].data = gdpData.values;
+                charts.gdpChart.originalData = gdpData.values;
+                charts.gdpChart.update('none');
+            }
+
+            // 2. 실업률 차트
+            if (data.economic?.unemployment?.comparison && charts.unemploymentChart) {
+                const unemploymentData = data.economic.unemployment.comparison;
+                charts.unemploymentChart.data.labels = unemploymentData.labels;
+                charts.unemploymentChart.data.datasets[0].data = unemploymentData.values;
+                charts.unemploymentChart.originalData = unemploymentData.values;
+                charts.unemploymentChart.update('none');
+            }
+
+            // 3. 출산율 차트
+            if (data.social?.fertility?.comparison && charts.fertilityChart) {
+                const fertilityData = data.social.fertility.comparison;
+                charts.fertilityChart.data.labels = fertilityData.labels;
+                charts.fertilityChart.data.datasets[0].data = fertilityData.values;
+                charts.fertilityChart.originalData = fertilityData.values;
+                charts.fertilityChart.update('none');
+            }
+
+            // 4. 교육 수준 차트
+            if (data.social?.education?.comparison && charts.educationChart) {
+                const educationData = data.social.education.comparison;
+                charts.educationChart.data.labels = educationData.labels;
+                charts.educationChart.data.datasets[0].data = educationData.values;
+                charts.educationChart.originalData = educationData.values;
+                charts.educationChart.update('none');
+            }
+
+            // 5. 재생에너지 차트
+            if (data.environment?.renewableEnergy?.comparison && charts.renewableChart) {
+                const renewableData = data.environment.renewableEnergy.comparison;
+                charts.renewableChart.data.labels = renewableData.labels;
+                charts.renewableChart.data.datasets[0].data = renewableData.values;
+                charts.renewableChart.originalData = renewableData.values;
+                charts.renewableChart.update('none');
+            }
+
+            // 6. 대기질 차트
+            if (data.environment?.airQuality?.comparison && charts.airQualityChart) {
+                const airData = data.environment.airQuality.comparison;
+                charts.airQualityChart.data.labels = airData.labels;
+                charts.airQualityChart.data.datasets[0].data = airData.values;
+                charts.airQualityChart.originalData = airData.values;
+                charts.airQualityChart.update('none');
+            }
+
+            // 7. R&D 투자 차트
+            if (data.innovation?.rdInvestment?.comparison && charts.rdChart) {
+                const rdData = data.innovation.rdInvestment.comparison;
+                charts.rdChart.data.labels = rdData.labels;
+                charts.rdChart.data.datasets[0].data = rdData.values;
+                charts.rdChart.originalData = rdData.values;
+                charts.rdChart.update('none');
+            }
+
+            // 8. R&D 추이 차트
+            if (data.innovation?.rdTrend && charts.rdTrendChart) {
+                const rdTrendData = data.innovation.rdTrend;
+                charts.rdTrendChart.data.labels = rdTrendData.labels;
+                charts.rdTrendChart.data.datasets[0].data = rdTrendData.values;
+                charts.rdTrendChart.originalData = rdTrendData.values;
+                charts.rdTrendChart.update('none');
+            }
+
+            // 색상 업데이트
+            setTimeout(() => {
+                updateChartColors();
+            }, 100);
         }
 
         // Copy functions for API guide
@@ -1346,21 +1485,15 @@ async function fetchKoreaGDP() {
         }
 
         function copyCode() {
-            const code = `// OECD API에서 한국 GDP 데이터 가져오기
+            const code = `// World Bank API에서 한국 GDP 데이터 가져오기
 async function fetchKoreaGDP() {
-    const url = 'https://sdmx.oecd.org/public/rest/data/' +
-                'OECD.SDD.NAD,DSD_NAMAIN1@DF_TABLE1_POPTOTAL,1.0/' +
-                'A.KOR.B1GQ_R_GR?format=jsondata';
+    const url = 'https://api.worldbank.org/v2/country/KOR/indicator/' + 
+                'NY.GDP.MKTP.KD.ZG?format=json&date=2020:2025';
     
-    const response = await fetch(url, {
-        headers: {
-            'Accept': 'application/vnd.sdmx.data+json;charset=utf-8;version=2.0.0'
-        }
-    });
-    
+    const response = await fetch(url);
     const data = await response.json();
-    console.log('GDP Data:', data);
-    return data;
+    console.log('GDP Data:', data[1]);
+    return data[1];
 }`;
             copyToClipboard(code);
         }
@@ -2047,15 +2180,16 @@ async function fetchKoreaGDP() {
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
             }
+
             // Update chart colors after charts are initialized
             setTimeout(() => {
                 updateChartColors();
             }, 500);
 
-            // Load data from OECD API and update charts
-            await loadAPIDataAndUpdateCharts();
+            // Load data from JSON file and update charts
+            await loadAndApplyData();
 
-            // Re-apply chart colors after API data is loaded
+            // Re-apply chart colors after data is loaded
             setTimeout(() => {
                 updateChartColors();
             }, 1000);
