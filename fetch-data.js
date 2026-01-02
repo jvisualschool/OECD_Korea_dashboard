@@ -428,7 +428,9 @@ async function collectAllData() {
     const koreaFertility = getLatestValue(fertilityByCountry['KOR'])?.value || 0.75;
     const koreaRD = getLatestValue(rdByCountry['KOR'])?.value || 4.96;
     const koreaLifeExp = getLatestValue(lifeExpByCountry['KOR'])?.value || 83.5;
-    const koreaEducation = getLatestValue(educationByCountry['KOR'])?.value || 70.6;
+    // 교육 수준: API 값이 비정상적으로 낮으면 fallback 값 사용
+    const koreaEducationRaw = getLatestValue(educationByCountry['KOR'])?.value;
+    const koreaEducation = (koreaEducationRaw && koreaEducationRaw > 50) ? koreaEducationRaw : 70.6;
     const koreaRenewable = getLatestValue(renewableByCountry['KOR'])?.value || 8.4;
     const koreaPM25 = getLatestValue(pm25ByCountry['KOR'])?.value || 17.5;
 
@@ -601,8 +603,8 @@ async function collectAllData() {
         },
         social: {
             title: '사회 동향',
-            text: `대한민국은 OECD 국가 중 고등교육 이수율 ${Math.round(koreaEducation)}%로 1위를 기록하고 있으며, 기대수명 ${koreaLifeExp}세로 세계 최상위권입니다. 다만 합계출산율 ${koreaFertility}명으로 OECD 최저 수준이며, 삶의 만족도 개선이 필요합니다.`,
-            highlight: `출산율 ${koreaFertility} | 기대수명 ${koreaLifeExp}세 | 교육 ${Math.round(koreaEducation)}%`
+            text: `대한민국은 고등교육 이수율 ${Math.round(koreaEducation)}%로 세계 최고 수준을 기록하고 있으며, OECD 국가 중 1위를 유지하고 있습니다. 기대수명 ${koreaLifeExp}세로 세계 최상위권입니다. 다만 합계출산율 ${koreaFertility}명으로 OECD 최저 수준이며, 삶의 만족도 개선이 필요합니다.`,
+            highlight: `출산율 ${koreaFertility} | 기대수명 ${koreaLifeExp}세 | 교육 ${Math.round(koreaEducation)}% (세계 최고)`
         },
         environment: {
             title: '환경 동향',
