@@ -145,6 +145,17 @@
             letter-spacing: -0.5px;
         }
 
+        .header h1 i[data-lucide="flag"] {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            vertical-align: middle;
+        }
+
+        .header h1 i[data-lucide="flag"]:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: brightness(1.2);
+        }
+
         .header p {
             font-size: 1.2em;
             opacity: 0.95;
@@ -901,7 +912,7 @@
     </div>
     <div class="container">
         <div class="header">
-            <h1><i data-lucide="flag" class="icon icon-large"></i>대한민국 OECD 통계 대시보드</h1>
+            <h1><i data-lucide="flag" class="icon icon-large" id="headerFlagIcon" onclick="openSplashModal()" title="스플래시 화면 보기"></i>대한민국 OECD 통계 대시보드</h1>
             <div class="header-subtitle-row">
                 <p>Korea OECD Statistics Dashboard 2024-2025</p>
                 <div class="header-api-status loading" id="headerApiStatus">
@@ -1310,14 +1321,29 @@ async function fetchKoreaGDP() {
             }
         }
 
+        // 스플래시 모달 열기
+        function openSplashModal() {
+            const modal = document.getElementById('splashModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.style.display = 'flex';
+                // 아이콘 다시 초기화
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }
+        }
+
         // 스플래시 모달 닫기
         function closeSplashModal() {
             const modal = document.getElementById('splashModal');
             if (modal) {
                 modal.classList.add('hidden');
-                // 모달이 완전히 사라진 후 제거 (선택사항)
+                // 모달이 완전히 사라진 후 제거하지 않고 숨김만 처리
                 setTimeout(() => {
-                    modal.style.display = 'none';
+                    if (modal.classList.contains('hidden')) {
+                        modal.style.display = 'none';
+                    }
                 }, 500);
             }
         }
@@ -1326,6 +1352,10 @@ async function fetchKoreaGDP() {
         function initSplashModal() {
             const modal = document.getElementById('splashModal');
             if (!modal) return;
+
+            // 처음 로드 시 모달 표시
+            modal.style.display = 'flex';
+            modal.classList.remove('hidden');
 
             // 모달 클릭 시 닫기 (이미지와 푸터 제외)
             modal.addEventListener('click', function(e) {
@@ -1341,7 +1371,7 @@ async function fetchKoreaGDP() {
                 }
             });
 
-            // 5초 후 자동 닫기 (선택사항)
+            // 5초 후 자동 닫기
             setTimeout(() => {
                 if (!modal.classList.contains('hidden')) {
                     closeSplashModal();
@@ -2397,4 +2427,5 @@ async function fetchKoreaGDP() {
     </script>
 </body>
 
+</html>
 </html>
