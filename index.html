@@ -735,10 +735,155 @@
         .download-btn i {
             stroke: currentColor;
         }
+
+        /* Splash Modal */
+        .splash-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .splash-modal.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .splash-content {
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            animation: splashFadeIn 0.6s ease-out;
+        }
+
+        @keyframes splashFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .splash-header {
+            background: var(--bg-header);
+            color: var(--text-inverse);
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .splash-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .splash-header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .splash-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .splash-footer {
+            background: var(--bg-header);
+            color: var(--text-inverse);
+            padding: 25px 30px;
+            font-size: 0.85em;
+            text-align: center;
+        }
+
+        .splash-footer p {
+            margin: 8px 0;
+            opacity: 0.9;
+        }
+
+        .splash-footer .source-link {
+            color: var(--text-inverse);
+            text-decoration: none;
+            font-weight: 500;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .splash-footer .source-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .splash-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: var(--text-inverse);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10001;
+        }
+
+        .splash-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
     </style>
 </head>
 
 <body>
+    <!-- Splash Modal -->
+    <div class="splash-modal" id="splashModal">
+        <button class="splash-close" onclick="closeSplashModal()" aria-label="닫기">×</button>
+        <div class="splash-content">
+            <div class="splash-header">
+                <h1><i data-lucide="flag" class="icon icon-medium"></i>대한민국 OECD 통계 대시보드</h1>
+                <p>Korea OECD Statistics Dashboard 2024-2025</p>
+            </div>
+            <img src="splash.jpg" alt="대한민국 OECD 통계 대시보드" class="splash-image">
+            <div class="splash-footer">
+                <p>데이터 출처: 
+                    <a href="https://data.worldbank.org" class="source-link" target="_blank">World Bank Open Data</a> |
+                    <a href="https://api.worldbank.org/v2/" class="source-link" target="_blank">World Bank API</a> |
+                    <a href="https://data-explorer.oecd.org" class="source-link" target="_blank">OECD Data Explorer</a> |
+                    <a href="https://www.oecd.org" class="source-link" target="_blank">OECD</a>
+                </p>
+                <p id="splashLastUpdated">Last Updated: -</p>
+                <p>Dashboard created with <i data-lucide="heart" class="icon icon-small" style="color: #ff6b6b;"></i> for Korea</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Theme Switcher -->
     <div class="theme-switcher">
         <button class="theme-btn light active" data-theme="light" title="라이트 테마">
@@ -1144,7 +1289,9 @@ async function fetchKoreaGDP() {
         // 마지막 업데이트 시간 표시
         function updateLastUpdatedText(timestamp) {
             const el = document.getElementById('lastUpdatedText');
-            if (el && timestamp) {
+            const splashEl = document.getElementById('splashLastUpdated');
+            
+            if (timestamp) {
                 const date = new Date(timestamp);
                 const formatted = date.toLocaleDateString('ko-KR', {
                     year: 'numeric',
@@ -1153,8 +1300,53 @@ async function fetchKoreaGDP() {
                     hour: '2-digit',
                     minute: '2-digit'
                 });
-                el.textContent = `Last Updated: ${formatted}`;
+                
+                if (el) {
+                    el.textContent = `Last Updated: ${formatted}`;
+                }
+                if (splashEl) {
+                    splashEl.textContent = `Last Updated: ${formatted}`;
+                }
             }
+        }
+
+        // 스플래시 모달 닫기
+        function closeSplashModal() {
+            const modal = document.getElementById('splashModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                // 모달이 완전히 사라진 후 제거 (선택사항)
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 500);
+            }
+        }
+
+        // 스플래시 모달 초기화
+        function initSplashModal() {
+            const modal = document.getElementById('splashModal');
+            if (!modal) return;
+
+            // 모달 클릭 시 닫기 (이미지와 푸터 제외)
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal || e.target.classList.contains('splash-close')) {
+                    closeSplashModal();
+                }
+            });
+
+            // ESC 키로 닫기
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    closeSplashModal();
+                }
+            });
+
+            // 5초 후 자동 닫기 (선택사항)
+            setTimeout(() => {
+                if (!modal.classList.contains('hidden')) {
+                    closeSplashModal();
+                }
+            }, 5000);
         }
 
         // API 상태 업데이트 (JSON 로드 기반)
@@ -2174,12 +2366,16 @@ async function fetchKoreaGDP() {
         // Initialize all charts after they are created
         window.addEventListener('load', async function () {
             initTheme();
-            initializeCharts();
-
-            // Initialize Lucide Icons
+            
+            // 스플래시 모달 초기화
+            initSplashModal();
+            
+            // 스플래시 모달 아이콘 초기화
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
             }
+
+            initializeCharts();
 
             // Update chart colors after charts are initialized
             setTimeout(() => {
@@ -2192,6 +2388,10 @@ async function fetchKoreaGDP() {
             // Re-apply chart colors after data is loaded
             setTimeout(() => {
                 updateChartColors();
+                // 모든 아이콘 다시 초기화 (스플래시 모달 포함)
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
             }, 1000);
         });
     </script>
