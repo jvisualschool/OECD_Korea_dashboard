@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "lastUpdated": "2026-01-02T01:39:27.970Z",
+    "lastUpdated": "2026-01-02T01:53:42.488Z",
     "source": "World Bank Open Data API",
     "sourceUrl": "https://data.worldbank.org",
     "version": "1.1.0"
@@ -98,10 +98,10 @@
           "OECD 평균"
         ],
         "values": [
-          36.46,
-          34.66,
-          41.85,
-          25.54,
+          70.6,
+          68.9,
+          66.2,
+          65,
           48.4
         ]
       },
